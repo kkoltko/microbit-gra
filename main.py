@@ -1,18 +1,27 @@
-input.onButtonPressed(Button.A, function () {
+def on_button_pressed_a():
     Ludzik.change(LedSpriteProperty.X, 1)
-})
-function onStart () {
-    Ludzik = game.createSprite(0, 2)
-    Ludzik.set(LedSpriteProperty.Blink, 350)
-    Punkt = game.createSprite(4, 2)
-    game.setScore(0)
-}
-input.onButtonPressed(Button.B, function () {
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def onStart():
+    global Ludzik, Punkt
+    Ludzik = game.create_sprite(1, 2)
+    Ludzik.set(LedSpriteProperty.BLINK, 350)
+    Punkt = game.create_sprite(3, 2)
+    game.set_score(0)
+
+def on_button_pressed_b():
     Ludzik.change(LedSpriteProperty.X, -1)
-})
-let Punkt: game.LedSprite = null
-let Ludzik: game.LedSprite = null
-if (Ludzik.isTouching(Punkt)) {
-    game.addScore(1)
-    Punkt.delete()
-}
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+Punkt: game.LedSprite = None
+Ludzik: game.LedSprite = None
+onStart()
+
+def on_forever():
+    if Ludzik.is_touching(Punkt):
+        game.add_score(1)
+        Punkt.delete()
+    if Ludzik.is_touching_edge():
+        basic.show_number(game.score())
+        game.game_over()
+basic.forever(on_forever)
